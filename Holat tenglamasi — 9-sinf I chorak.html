@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ideal gaz holatining tenglamalari — 9-sinf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#141829; --bg-2:#1c2138; --panel:#1f253f; --panel-2:#262d4c;
+  --ink:#EDE8DC; --dim:#B9B6C8; --line:#363c5c;
+  --amber:#F2A93B; --teal:#59D6C4; --violet:#A78BFA; --danger:#E8735F;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);
+  background-image:radial-gradient(circle at 15% 0%,rgba(242,169,59,.08),transparent 40%),radial-gradient(circle at 90% 20%,rgba(167,139,250,.08),transparent 45%);
+  color:var(--ink);font-family:'Manrope',sans-serif;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:700;margin:0 0 .4em;color:#FBF7EE}
+.wrap{max-width:740px;margin:0 auto;padding:0 20px 70px}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(20,24,41,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:740px;margin:0 auto;padding:14px 20px}
+.topbar .title{font-family:'Fraunces',serif;font-style:italic;color:var(--dim);font-size:.85rem;margin-bottom:10px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.tab-btn{flex:0 0 auto;font-family:'Manrope',sans-serif;font-weight:700;font-size:.82rem;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{border-color:var(--amber);color:var(--ink)}
+.tab-btn.active{background:var(--amber);border-color:var(--amber);color:#1a1204}
+.hero{padding:38px 0 10px}
+.hero .kicker{color:var(--amber);font-family:'Fraunces',serif;font-style:italic;margin-bottom:8px;font-size:1rem}
+.hero h1{font-size:clamp(1.4rem,5.5vw,2rem);max-width:26ch}
+.hero p{color:var(--dim);max-width:52ch;font-size:.97rem}
+.panel{display:none;padding:26px 0}
+.panel.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px}
+.card h3{font-size:1.1rem;margin-bottom:10px}
+.plan-bar{display:flex;border-radius:10px;overflow:hidden;height:40px;margin:14px 0}
+.plan-seg{display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:700;color:#1a1204}
+.plan-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.78rem;color:var(--dim);margin-top:4px}
+.plan-legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.goal{font-size:.9rem;color:var(--dim);margin-top:10px}
+.goal b{color:var(--ink)}
+.slide-viewer{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:20px;min-height:150px}
+.slide-viewer .sn{font-size:.76rem;color:var(--amber);font-weight:700;margin-bottom:6px}
+.slide-viewer h4{font-family:'Fraunces',serif;font-size:1.1rem;margin:0 0 8px;color:#FBF7EE}
+.slide-viewer p{font-size:.9rem;color:var(--dim);margin:0}
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.slide-nav button{font-family:'Manrope',sans-serif;font-weight:700;font-size:.8rem;padding:8px 15px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
+.slide-nav button:hover{border-color:var(--amber);color:var(--ink)}
+.slide-dots{display:flex;gap:6px}
+.slide-dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.slide-dots span.on{background:var(--amber)}
+.howto{margin-top:12px;background:var(--bg-2);border-left:3px solid var(--violet);border-radius:0 10px 10px 0;padding:11px 15px}
+.howto .tag{font-size:.7rem;font-weight:800;letter-spacing:.03em;color:var(--violet);margin-bottom:3px}
+.howto p{margin:0;font-size:.85rem;color:var(--dim)}
+canvas{display:block;width:100%;height:auto;background:var(--bg-2);border-radius:10px;touch-action:none}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.calc-field label{display:block;font-size:.78rem;color:var(--dim);margin-bottom:5px}
+.calc-field input[type=range]{width:100%;accent-color:var(--amber)}
+.calc-field .val{font-weight:700;color:var(--amber)}
+.calc-result{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:.95rem;text-align:center;margin-bottom:10px}
+.calc-result .f{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--teal)}
+.quiz-card{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:10px}
+.quiz-card p.q{font-weight:700;color:#FBF7EE;margin:0 0 8px;font-size:.88rem}
+.opt{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:7px;margin-bottom:6px;cursor:pointer;font-size:.84rem}
+.opt:hover{border-color:var(--amber)}
+.opt.correct{background:rgba(89,214,196,.18);border-color:var(--teal)}
+.opt.wrong{background:rgba(232,115,95,.16);border-color:var(--danger)}
+.score-box{text-align:center;padding:13px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line);font-size:.92rem;color:var(--dim);margin-top:10px}
+.score-box b{color:var(--amber);font-size:1.15rem}
+.game-stats{display:flex;justify-content:space-between;align-items:center;font-size:.86rem;color:var(--dim);margin-bottom:10px}
+.game-stats b{color:var(--amber);font-size:1rem}
+.catch-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.catch-btn{font-family:'Manrope',sans-serif;font-weight:700;font-size:.85rem;padding:14px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg-2);color:var(--ink);cursor:pointer;transition:.1s}
+.catch-btn:hover{border-color:var(--amber)}
+.catch-btn.flash-ok{background:rgba(89,214,196,.3);border-color:var(--teal)}
+.catch-btn.flash-bad{background:rgba(232,115,95,.3);border-color:var(--danger)}
+.game-over{display:none;text-align:center;margin-top:12px;padding:16px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line)}
+.game-over p{margin:0 0 10px;font-size:.92rem;color:var(--ink)}
+.game-over button{font-family:'Manrope',sans-serif;font-weight:700;font-size:.84rem;padding:9px 18px;border-radius:8px;border:none;background:var(--amber);color:#1a1204;cursor:pointer}
+.game-intro{display:flex;justify-content:center;margin-top:12px}
+.game-intro button{font-family:'Manrope',sans-serif;font-weight:700;font-size:.88rem;padding:11px 24px;border-radius:999px;border:none;background:var(--teal);color:#06251d;cursor:pointer}
+.cert-form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.cert-form input{flex:1;min-width:180px;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--ink);font-family:'Manrope',sans-serif;font-size:.88rem}
+.cert-form button{font-family:'Manrope',sans-serif;font-weight:700;font-size:.84rem;padding:10px 18px;border-radius:8px;border:none;background:var(--amber);color:#1a1204;cursor:pointer}
+.certificate{display:none;border:2px solid var(--amber);border-radius:16px;padding:32px 24px;text-align:center;background:linear-gradient(160deg,rgba(242,169,59,.08),transparent 60%)}
+.certificate.show{display:block}
+.certificate .cap{font-size:.76rem;letter-spacing:.08em;color:var(--dim);margin-bottom:8px}
+.certificate .name{font-family:'Fraunces',serif;font-style:italic;font-size:1.5rem;color:var(--amber);margin:14px 0}
+.certificate .topic{color:var(--dim);font-size:.9rem;max-width:38ch;margin:0 auto 14px}
+.certificate .date{font-size:.78rem;color:var(--dim)}
+footer{text-align:center;color:var(--dim);font-size:.8rem;padding:30px 20px 10px}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topbar-inner">
+  <div class="title">9-sinf Fizika · I chorak · 10-dars</div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="taqdimot">📑 Taqdimot</button>
+    <button class="tab-btn" data-tab="simulyatsiya">⚡ Simulyatsiya</button>
+    <button class="tab-btn" data-tab="test">✅ Test</button>
+    <button class="tab-btn" data-tab="oyin">🎮 O'yin</button>
+    <button class="tab-btn" data-tab="sertifikat">🏆 Sertifikat</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+<div class="hero">
+  <div class="kicker">Dars · II yarim chorak boshlanishi</div>
+  <h1>Ideal gaz holatining tenglamalari</h1>
+  <p>Bosim, hajm, harorat va modda miqdorini bitta formulada birlashtiramiz — Mendeleyev-Klapeyron tenglamasi.</p>
+</div>
+
+<!-- TAQDIMOT -->
+<div class="panel active" id="taqdimot">
+  <div class="card">
+    <h3>Dars rejasi (45 daqiqa)</h3>
+    <p class="goal"><b>Maqsad:</b> o'quvchiga Mendeleyev-Klapeyron tenglamasini va uning amaliy qo'llanilishini tushuntirish.</p>
+    <div class="plan-bar">
+      <div class="plan-seg" style="width:11%;background:var(--teal)">5'</div>
+      <div class="plan-seg" style="width:33%;background:var(--amber)">15' Yangi bilim</div>
+      <div class="plan-seg" style="width:22%;background:var(--violet)">10' Tadqiqot</div>
+      <div class="plan-seg" style="width:33%;background:#E8735F">15' Mustahkamlash</div>
+    </div>
+    <div class="plan-legend">
+      <span><span class="dot" style="background:var(--teal)"></span>Qiziqtirish</span>
+      <span><span class="dot" style="background:var(--amber)"></span>Yangi bilim</span>
+      <span><span class="dot" style="background:var(--violet)"></span>Tadqiqot</span>
+      <span><span class="dot" style="background:#E8735F"></span>Mustahkamlash</span>
+    </div>
+    <div class="howto"><div class="tag">Qiziqtirish savoli</div><p>"Gazning bosimi, hajmi va harorati bir vaqtning o'zida o'zgarsa, bu kattaliklarni bog'laydigan yagona formula bormi?" — shu savol bilan boshlang.</p></div>
+  </div>
+  <div class="card">
+    <h3>Slaydlar</h3>
+    <div class="slide-viewer">
+      <div class="sn" id="slideNum">1-slayd / 4</div>
+      <h4 id="slideTitle"></h4>
+      <p id="slideText"></p>
+    </div>
+    <div class="slide-nav"><button id="slidePrev">← Oldingi</button><div class="slide-dots" id="slideDots"></div><button id="slideNext">Keyingi →</button></div>
+  </div>
+</div>
+
+<!-- SIMULYATSIYA -->
+<div class="panel" id="simulyatsiya">
+  <div class="card">
+    <h3>Mendeleyev-Klapeyron kalkulyatori</h3>
+    <p class="goal">Bosim, hajm va haroratni o'zgartirib, modda miqdorini hisoblang: pV = νRT.</p>
+    <div class="calc-grid">
+      <div class="calc-field"><label>Bosim, p = <span class="val" id="pVal">100</span> kPa</label><input type="range" id="pSlider" min="50" max="300" value="100"></div>
+      <div class="calc-field"><label>Hajm, V = <span class="val" id="vVal">10</span> L</label><input type="range" id="vSlider" min="1" max="50" value="10"></div>
+    </div>
+    <div class="calc-field"><label>Harorat, T = <span class="val" id="tVal">300</span> K</label><input type="range" id="tSlider" min="200" max="500" value="300"></div>
+    <div class="calc-result"><span class="f">ν = pV/RT = <span id="nuResult">0.40</span> mol</span></div>
+    <canvas id="pvCanvas" width="640" height="160"></canvas>
+  </div>
+</div>
+
+<!-- TEST -->
+<div class="panel" id="test">
+  <div class="card">
+    <h3>Bilimni tekshirish</h3>
+    <p class="goal">4 ta savolga javob bering.</p>
+    <div class="quiz-card"><p class="q">1. Mendeleyev-Klapeyron tenglamasi qanday ko'rinishda yoziladi?</p>
+      <button class="opt" data-c="true">pV = νRT</button><button class="opt" data-c="false">p + V = RT</button><button class="opt" data-c="false">p = V·R·T</button></div>
+    <div class="quiz-card"><p class="q">2. Tenglamadagi R nimani bildiradi?</p>
+      <button class="opt" data-c="true">Universal gaz doimiysi</button><button class="opt" data-c="false">Gaz zichligi</button><button class="opt" data-c="false">Molekulalar soni</button></div>
+    <div class="quiz-card"><p class="q">3. Bu tenglamani kim(lar) kashf etgan/rivojlantirgan?</p>
+      <button class="opt" data-c="true">Dmitriy Mendeleyev va Benua Klapeyron</button><button class="opt" data-c="false">Isaak Nyuton</button><button class="opt" data-c="false">Albert Eynshteyn</button></div>
+    <div class="quiz-card"><p class="q">4. Agar bosim va hajm ma'lum bo'lsa, lekin harorat noma'lum bo'lsa, qaysi kattalikni bilish shart?</p>
+      <button class="opt" data-c="true">Modda miqdori (ν)</button><button class="opt" data-c="false">Rang</button><button class="opt" data-c="false">Hid</button></div>
+    <div class="score-box" id="scoreBox">Javob bering — natija shu yerda ko'rinadi.</div>
+  </div>
+</div>
+
+<!-- O'YIN -->
+<div class="panel" id="oyin">
+  <div class="card">
+    <h3>Qaysi kattalik o'sdi?</h3>
+    <p class="goal">pV = νRT formulasidan foydalanib, berilgan o'zgarishda qaysi kattalik oshganini tez ayting.</p>
+    <div class="game-stats"><span>Ball: <b id="gScore">0</b></span><span>Jon: <b id="gLives">❤️❤️❤️</b></span></div>
+    <canvas id="gameCanvas" width="640" height="260"></canvas>
+    <div class="catch-buttons"><button class="catch-btn" data-g="p">Bosim (p)</button><button class="catch-btn" data-g="T">Harorat (T)</button></div>
+    <div class="game-intro" id="gameIntro"><button id="startBtn">▶ O'yinni boshlash</button></div>
+    <div class="game-over" id="gameOver"><p>O'yin tugadi! Yakuniy ball: <b id="finalScore">0</b></p><button id="restartBtn">Qayta boshlash</button></div>
+  </div>
+</div>
+
+<!-- SERTIFIKAT -->
+<div class="panel" id="sertifikat">
+  <div class="card">
+    <h3>Sertifikat olish</h3>
+    <p class="goal">Ismingizni kiriting va sertifikat oling.</p>
+    <div class="cert-form"><input type="text" id="certName" placeholder="Ism Familiya"><button id="certBtn">Sertifikat olish</button></div>
+    <div class="certificate" id="certificate">
+      <div class="cap">MUVAFFAQIYAT SERTIFIKATI</div>
+      <h2>Tabriklaymiz!</h2>
+      <div class="name" id="certNameOut">Ism Familiya</div>
+      <p class="topic">"Ideal gaz holatining tenglamalari" mavzusini muvaffaqiyatli o'zlashtirdi.</p>
+      <div class="date" id="certDate"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<footer>9-sinf Fizika · I chorak · 10-dars — Holat tenglamasi</footer>
+
+<script>
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(b=>{
+  b.onclick=()=>{ document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); document.getElementById(b.dataset.tab).classList.add('active'); };
+});
+
+// Slides
+const slides=[
+  {t:"Holat parametrlari", x:"Gazning holatini to'liq tavsiflash uchun uchta kattalik kerak: bosim (p), hajm (V) va harorat (T). Bu uchtasini bir vaqtda bog'laydigan formula — holat tenglamasi deyiladi."},
+  {t:"Mendeleyev-Klapeyron tenglamasi", x:"pV = νRT — bu yerda p bosim (Pa), V hajm (m³), ν modda miqdori (mol), R universal gaz doimiysi (8,31 J/(mol·K)), T harorat (K)."},
+  {t:"Universal gaz doimiysi", x:"R = 8,31 J/(mol·K) — barcha ideal gazlar uchun bir xil qiymatga ega doimiy kattalik. U gaz turiga bog'liq emas."},
+  {t:"Amaliy ahamiyati", x:"Bu tenglama yordamida, agar gazning uchta parametridan ikkitasi ma'lum bo'lsa, qolgan kattaliklarni (masalan, modda miqdorini yoki haroratni) hisoblash mumkin."},
+];
+let slideIdx=0;
+const slideTitle=document.getElementById('slideTitle'), slideText=document.getElementById('slideText'), slideNum=document.getElementById('slideNum'), slideDots=document.getElementById('slideDots');
+slides.forEach((_,i)=>{ const d=document.createElement('span'); if(i===0) d.className='on'; slideDots.appendChild(d); });
+function renderSlide(){ slideTitle.textContent=slides[slideIdx].t; slideText.textContent=slides[slideIdx].x; slideNum.textContent=(slideIdx+1)+"-slayd / "+slides.length; [...slideDots.children].forEach((d,i)=>d.classList.toggle('on', i===slideIdx)); }
+document.getElementById('slidePrev').onclick=()=>{ slideIdx=(slideIdx-1+slides.length)%slides.length; renderSlide(); };
+document.getElementById('slideNext').onclick=()=>{ slideIdx=(slideIdx+1)%slides.length; renderSlide(); };
+renderSlide();
+
+// MK equation calc
+const pSlider=document.getElementById('pSlider'), vSlider=document.getElementById('vSlider'), tSlider=document.getElementById('tSlider');
+const pVal=document.getElementById('pVal'), vVal=document.getElementById('vVal'), tVal=document.getElementById('tVal'), nuResult=document.getElementById('nuResult');
+const pvCanvas=document.getElementById('pvCanvas'), pvctx=pvCanvas.getContext('2d');
+function updateMK(){
+  const p=parseInt(pSlider.value,10)*1000, V=parseInt(vSlider.value,10)/1000, T=parseInt(tSlider.value,10);
+  pVal.textContent=(p/1000); vVal.textContent=(V*1000); tVal.textContent=T;
+  const R=8.31;
+  const nu = p*V/(R*T);
+  nuResult.textContent=nu.toFixed(2);
+  drawPV(nu);
+}
+function drawPV(nu){
+  const w=640,h=160; pvctx.clearRect(0,0,w,h);
+  const barW = Math.min(560, nu*100);
+  pvctx.fillStyle='#363c5c'; pvctx.fillRect(40,60,560,40);
+  pvctx.fillStyle='#F2A93B'; pvctx.fillRect(40,60,Math.min(560,barW),40);
+  pvctx.fillStyle='#B9B6C8'; pvctx.font='12px Manrope'; pvctx.fillText('Modda miqdori (ν)', 40,50);
+}
+pSlider.oninput=updateMK; vSlider.oninput=updateMK; tSlider.oninput=updateMK; updateMK();
+
+// Quiz
+let testTotal=0, testCorrect=0;
+document.querySelectorAll('#test .quiz-card').forEach(card=>{
+  const opts = card.querySelectorAll('.opt');
+  opts.forEach(opt=>{ opt.addEventListener('click', ()=>{ if(card.dataset.a) return; card.dataset.a='1';
+    testTotal++; if(opt.dataset.c==='true') testCorrect++;
+    opts.forEach(o=>{ if(o.dataset.c==='true') o.classList.add('correct'); else if(o===opt) o.classList.add('wrong'); });
+    document.getElementById('scoreBox').innerHTML = `Natija: <b>${testCorrect} / ${testTotal}</b>` + (testTotal===4 ? ` — yakuniy: <b>${testCorrect}/4</b>` : '');
+  }); });
+});
+
+// Game
+const gamePool = [
+  {t:"Gaz qizdirildi, hajm va modda miqdori o'zgarmadi", ans:"p"},
+  {t:"Gaz ko'proq qizdirildi, bosim o'zgarmadi (hajm ortdi)", ans:"T"},
+  {t:"Idish kichraytirildi (hajm kamaydi), harorat o'zgarmadi", ans:"p"},
+  {t:"Gazga issiqlik berildi, bosim ham, hajm ham ortdi", ans:"T"},
+];
+const gameCanvas=document.getElementById('gameCanvas'), gctx2=gameCanvas.getContext('2d');
+const gScoreEl=document.getElementById('gScore'), gLivesEl=document.getElementById('gLives');
+const gameIntro=document.getElementById('gameIntro'), gameOverBox=document.getElementById('gameOver'), finalScoreEl=document.getElementById('finalScore');
+let gScore=0,gLives=3,gRunning=false,curItem=null,groundY=220;
+function gSpeed(){ return 0.6+Math.min(gScore,20)*0.07; }
+function spawnItem(){ const d=gamePool[Math.floor(Math.random()*gamePool.length)]; curItem={t:d.t,ans:d.ans,x:320,y:-20}; }
+function drawGame(){
+  gctx2.clearRect(0,0,640,260);
+  gctx2.strokeStyle='#363c5c'; gctx2.strokeRect(2,2,636,256);
+  gctx2.strokeStyle='#E8735F'; gctx2.setLineDash([6,5]); gctx2.beginPath(); gctx2.moveTo(10,groundY); gctx2.lineTo(630,groundY); gctx2.stroke(); gctx2.setLineDash([]);
+  if(curItem && gRunning){
+    curItem.y += gSpeed();
+    gctx2.font='14px Manrope'; gctx2.textAlign='center'; gctx2.fillStyle='#EDE8DC';
+    wrapText(gctx2, curItem.t, curItem.x, curItem.y, 280, 16);
+    gctx2.textAlign='left';
+    if(curItem.y>=groundY){ loseLife(); curItem=null; setTimeout(()=>{ if(gRunning) spawnItem(); },500); }
+  }
+  if(gRunning) requestAnimationFrame(drawGame);
+}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){
+  const words=text.split(' '); let line=''; let yy=y; const lines=[];
+  words.forEach(w=>{ const test=line+w+' '; if(ctx.measureText(test).width>maxWidth && line){ lines.push(line); line=w+' '; } else line=test; });
+  lines.push(line);
+  lines.forEach((l,i)=>ctx.fillText(l.trim(), x, yy+i*lineHeight));
+}
+function flashBtn(g,ok){ const btn=document.querySelector(`.catch-btn[data-g="${g}"]`); btn.classList.add(ok?'flash-ok':'flash-bad'); setTimeout(()=>btn.classList.remove('flash-ok','flash-bad'),300); }
+function loseLife(){ gLives--; gLivesEl.textContent='❤️'.repeat(Math.max(gLives,0))+'🖤'.repeat(3-Math.max(gLives,0)); if(gLives<=0) endGame(); }
+document.querySelectorAll('.catch-btn').forEach(btn=>{
+  btn.onclick=()=>{ if(!gRunning||!curItem) return; const g=btn.dataset.g;
+    if(g===curItem.ans){ gScore++; flashBtn(g,true); curItem=null; gScoreEl.textContent=gScore; setTimeout(()=>{ if(gRunning) spawnItem(); },350); }
+    else { flashBtn(g,false); loseLife(); } };
+});
+function startGame(){ gScore=0; gLives=3; gRunning=true; curItem=null; gLivesEl.textContent='❤️❤️❤️'; gScoreEl.textContent=0; gameIntro.style.display='none'; gameOverBox.style.display='none'; spawnItem(); drawGame(); }
+function endGame(){ gRunning=false; curItem=null; finalScoreEl.textContent=gScore; gameOverBox.style.display='block'; }
+document.getElementById('startBtn').onclick=startGame;
+document.getElementById('restartBtn').onclick=startGame;
+
+// Certificate
+document.getElementById('certBtn').onclick=()=>{
+  const name=document.getElementById('certName').value.trim(); if(!name) return;
+  document.getElementById('certNameOut').textContent=name;
+  const d=new Date(); document.getElementById('certDate').textContent=d.toLocaleDateString('uz-UZ',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('certificate').classList.add('show');
+};
+</script>
+</body>
+</html>
